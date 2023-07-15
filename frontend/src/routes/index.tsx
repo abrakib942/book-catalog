@@ -3,6 +3,7 @@ import App from "../App";
 import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
 import NotFound from "../pages/NotFound";
+import SignIn from "../pages/SignIn";
 
 const routes = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const routes = createBrowserRouter([
   {
     path: "/signUp",
     element: <SignUp />,
+  },
+  {
+    path: "/signIn",
+    element: <SignIn />,
   },
   {
     path: "*",
