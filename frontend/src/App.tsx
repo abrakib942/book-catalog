@@ -1,5 +1,11 @@
+import MainLayout from "./layouts/MainLayouts";
+
 function App() {
-  return <div className="text-red-500">Book catalog</div>;
+  return (
+    <div>
+      <MainLayout />
+    </div>
+  );
 }
 
 export default App;
