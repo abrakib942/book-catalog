@@ -1,8 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Link } from "react-router-dom";
 import Footer from "../layouts/Footer";
 import bannerImg from "../assets/bannerImg.jpeg";
+import { useGetBooksQuery } from "../redux/features/book/bookApi";
+import Loading from "../components/Loading";
+import { IBook } from "../types/globalTypes";
+import Card from "../components/Card";
 
 export default function Home() {
+  const { data: bookData, isLoading } = useGetBooksQuery(undefined);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <div className="max-w-6xl mx-auto">
@@ -36,17 +49,13 @@ export default function Home() {
         </div>
 
         <div className="mt-[20px] mb-[100px]">
-          <h3 className="text-[20px]  font-[500] text-center my-[30px]">
-            Recently Published Books
+          <h3 className="text-[20px]  font-[500] text-center mt-16 mb-[30px]">
+            Recently Added Books
           </h3>
           <div className="grid grid-cols-3 gap-x-10 gap-y-10">
-            {/* {books.map((book, i) => {
-              return (
-                <Link key={i} to={`/details/${book.id}`}>
-                  <Card book={book} />
-                </Link>
-              );
-            })} */}
+            {bookData?.data?.map((book: IBook) => (
+              <Card book={book} />
+            ))}
           </div>
         </div>
       </div>
