@@ -29,10 +29,9 @@ const EditBook: React.FC = () => {
   });
 
   let bookData: IBook | null = null;
-  if (id) {
-    const { data } = useGetSingleBookQuery(id);
-    bookData = data?.data;
-  }
+
+  const { data, isLoading } = useGetSingleBookQuery(id);
+  bookData = data?.data;
 
   useEffect(() => {
     if (bookData) {
@@ -71,23 +70,27 @@ const EditBook: React.FC = () => {
   };
 
   const [updateBook] = useUpdateBookMutation();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoad, setIsLoad] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    const response: any = await updateBook({ _id: id, data: bookInfo });
+    // setIsLoad(true);
+    const response: any = await updateBook({ id: id, data: bookInfo });
     if (response?.data) {
       toast("update successful");
       if (id) {
         navigate(`/details/${id}`);
       }
-      setIsLoading(false);
+      // setIsLoad(false);
     } else {
       toast("edit failed");
-      setIsLoading(false);
+      // setIsLoad(false);
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="container mx-auto px-[350px] py-8">

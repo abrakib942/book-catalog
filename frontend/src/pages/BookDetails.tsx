@@ -26,17 +26,17 @@ const BookDetails = () => {
           <div className="flex flex-wrap items-start">
             <div className="w-full md:w-1/2 lg:w-1/3">
               <img
-                src={book.image}
-                alt={book.title}
+                src={book.data.image}
+                alt={book.data.title}
                 className="max-w-full rounded shadow-lg"
               />
             </div>
             <div className="w-full md:w-1/2 lg:w-2/3 pl-8">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold mb-4">{book.title}</h2>
+                <h2 className="text-2xl font-bold mb-4">{book.data.title}</h2>
                 {/* Buttons */}
                 <div className="flex items-center">
-                  <Link to={`/edit-book/${book._id}`}>
+                  <Link to={`/edit-book/${id as string}`}>
                     <button className="flex items-center px-4 py-[3px] bg-green-500 text-white rounded hover:bg-green-600 mr-3">
                       <FiEdit2 className="text-[18px] mr-2" /> <span>Edit</span>
                     </button>
@@ -48,25 +48,19 @@ const BookDetails = () => {
                 </div>
               </div>
               <p className="text-lg mb-2">
-                <span className="font-bold">Author:</span> {book.author}
+                <span className="font-bold">Author:</span> {book.data.author}
               </p>
               <p className="text-lg mb-2">
-                <span className="font-bold">Genre:</span> {book.genre}
+                <span className="font-bold">Genre:</span> {book.data.genre}
               </p>
               <p className="text-lg mb-2">
                 <span className="font-bold">Publication Year:</span>{" "}
-                {moment(book.publicationDate).format("DD MMMM, YYYY")}
+                {moment(book.data.publicationDate).format("DD MMMM, YYYY")}
               </p>
               <h3 className="text-xl font-[500] mt-4 mb-2">
-                Summary about {book.title}
+                Summary about {book.data.title}
               </h3>
-              <p className="text-lg mb-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-                consequat convallis est, at fermentum sapien bibendum sit amet.
-                Sed faucibus risus non lacus vulputate, eu fermentum mauris
-                eleifend. Aliquam venenatis tincidunt nisi, eget dapibus ligula
-                commodo in.
-              </p>
+              <p className="text-lg mb-4">{book.data.summary}</p>
 
               {/* <form >
                 <label htmlFor="review" className="text-lg font-[500] mb-3">

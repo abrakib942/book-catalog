@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import moment from "moment";
 import { IBook } from "../types/globalTypes";
 import { Link } from "react-router-dom";

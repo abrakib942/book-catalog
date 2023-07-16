@@ -29,7 +29,7 @@ const PrivateRoute = ({ children }: IProps) => {
     }
 
     if (!email) {
-      navigate("/login", { state: { from: location } });
+      navigate("/signIn", { state: { from: location } });
     }
   }, [email, location, navigate, isInitialLoad, dispatch]);
 
