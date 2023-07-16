@@ -22,13 +22,17 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<string | null>) => {
       state.user.email = action.payload;
+      localStorage.setItem("userEmail", action.payload || "");
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+    setLoggedOut: (state) => {
+      state.user.email = null;
+    },
   },
 });
 
-export const { setUser, setLoading } = userSlice.actions;
+export const { setUser, setLoading, setLoggedOut } = userSlice.actions;
 
 export default userSlice.reducer;

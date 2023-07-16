@@ -69,9 +69,11 @@ const SignIn = () => {
 
       if (response?.data) {
         Cookies.set("token", response?.data?.token);
+        // Cookies.set("email", data?.email);
+        localStorage.setItem("userEmail", data?.email || "");
       }
 
-      dispatch(setUser(data?.email));
+      // dispatch(setUser(data?.email));
 
       reset(defaultValues);
       navigate("/");

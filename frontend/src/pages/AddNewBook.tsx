@@ -9,12 +9,19 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { IBook } from "../types/globalTypes";
 import Loading from "../components/Loading";
+import { useAddBookMutation } from "../redux/features/book/bookApi";
+import toast from "react-hot-toast";
 
 const AddNewBook = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  const email = localStorage.getItem("userEmail");
+
+  const [addBook] = useAddBookMutation();
+
   const [bookInfo, setBookInfo] = useState<IBook>({
+    email: "",
     title: "",
     author: "",
     genre: "",
@@ -51,7 +58,30 @@ const AddNewBook = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(e);
+
+    if (email) {
+      bookInfo.email = email;
+    }
+    setIsLoading(true);
+    const response: any = await addBook(bookInfo);
+    if (response?.data) {
+      toast.success("added successfully");
+      // Reset the form fields
+      setBookInfo({
+        email: "",
+        title: "",
+        author: "",
+        genre: "",
+        publicationDate: "",
+        image: "",
+        summary: "",
+      });
+      navigate("/books");
+      setIsLoading(false);
+    } else {
+      toast.error("Failed");
+      setIsLoading(false);
+    }
   };
 
   return (

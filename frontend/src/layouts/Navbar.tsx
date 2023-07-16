@@ -1,18 +1,17 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.jpg";
-import { useAppSelector } from "../redux/hook";
-import { setUser } from "../redux/features/user/userSlice";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
-  const { email } = useAppSelector((state) => state.users.user);
-
-  const dispatch = useDispatch();
+  const email = localStorage.getItem("userEmail");
 
   const handleLogout = () => {
-    dispatch(setUser(null));
+    localStorage.removeItem("userEmail");
     Cookies.remove("token");
+    window.location.reload();
+
+    toast.success("Logged out");
   };
 
   return (
@@ -32,6 +31,13 @@ const Navbar = () => {
               <li>
                 <Link to="/books">All Books</Link>
               </li>
+              {email && (
+                <Link to="/add-new-book">
+                  <a className="text-white bg-accent px-3 py-2 mt-8 rounded-md text-sm font-medium">
+                    Add New
+                  </a>
+                </Link>
+              )}
 
               {email ? (
                 <li onClick={handleLogout}>
