@@ -14,11 +14,11 @@ import toast from "react-hot-toast";
 
 const AddNewBook = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const email = localStorage.getItem("userEmail");
 
-  const [addBook] = useAddBookMutation();
+  const [addBook, { isLoading }] = useAddBookMutation();
 
   const [bookInfo, setBookInfo] = useState<IBook>({
     email: "",
@@ -62,7 +62,7 @@ const AddNewBook = () => {
     if (email) {
       bookInfo.email = email;
     }
-    setIsLoading(true);
+    // setIsLoading(true);
     const response: any = await addBook(bookInfo);
     if (response?.data) {
       toast.success("added successfully");
@@ -77,12 +77,14 @@ const AddNewBook = () => {
         summary: "",
       });
       navigate("/books");
-      setIsLoading(false);
     } else {
       toast.error("Failed");
-      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
