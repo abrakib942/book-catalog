@@ -144,7 +144,7 @@ const run = async () => {
         .toArray();
       return res.status(200).send({
         message: "Recent Published Books retrieved successfully!",
-        books: result,
+        data: result,
       });
     });
 
