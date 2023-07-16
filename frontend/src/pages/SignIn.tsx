@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -8,15 +9,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { MdAlternateEmail, MdDisplaySettings } from "react-icons/md";
+import { MdAlternateEmail } from "react-icons/md";
 import { AiFillLock } from "react-icons/ai";
-import { RiUserSmileLine } from "react-icons/ri";
+
 import { useSignInMutation } from "../redux/features/user/userApi";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
-import { setUser } from "../redux/features/user/userSlice";
 
 type FormData = {
   email: string;
@@ -43,8 +42,6 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const [signIn, { isLoading }] = useSignInMutation();
-
-  const dispatch = useDispatch();
 
   const {
     handleSubmit,

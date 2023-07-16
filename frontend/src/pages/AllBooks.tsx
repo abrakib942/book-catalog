@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, { useState } from "react";
+import { useState } from "react";
 import { useGetBooksQuery } from "../redux/features/book/bookApi";
 import { IBook } from "../types/globalTypes";
 import Card from "../components/Card";
 import Loading from "../components/Loading";
 import Navbar from "../layouts/Navbar";
-import { Link } from "react-router-dom";
 
 const AllBooks = () => {
   const genres = [

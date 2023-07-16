@@ -9,8 +9,6 @@ import * as yup from "yup";
 
 import { MdAlternateEmail } from "react-icons/md";
 import { AiFillLock } from "react-icons/ai";
-import { RiUserSmileLine } from "react-icons/ri";
-import { useAppDispatch } from "../redux/hook";
 import { useSignUpMutation } from "../redux/features/user/userApi";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading";
@@ -40,8 +38,6 @@ const defaultValues = {
 };
 
 const SignUp = () => {
-  const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
   const [signUp, { isLoading }] = useSignUpMutation();
