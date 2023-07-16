@@ -1,19 +1,52 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React from "react";
-import { useGetSingleBookQuery } from "../redux/features/book/bookApi";
+import React, { useState } from "react";
+import {
+  useDeleteBookMutation,
+  useGetSingleBookQuery,
+} from "../redux/features/book/bookApi";
 import Loading from "../components/Loading";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { AiFillDelete } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
+import swal from "sweetalert";
 
 const BookDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { data: book, isLoading } = useGetSingleBookQuery(id);
+
+  const [deleteBook] = useDeleteBookMutation();
+  // const [isDeleteLoad, setDeleteLoad] = useState(false);
+  const handleDeleteBook = () => {
+    swal({
+      title: "Are you sure?",
+      icon: "warning",
+      buttons: ["Cancel", "Yes"],
+      dangerMode: false,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        if (id) {
+          // setDeleteLoad(true);
+          const response: any = await deleteBook(id);
+          if (response?.data) {
+            swal(response?.data?.message, "", "success");
+            navigate("/books");
+            // setDeleteLoad(false);
+          } else {
+            swal("Book delete operation failed!", "", "error");
+            // setDeleteLoad(false);
+          }
+        }
+      }
+    });
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -41,7 +74,10 @@ const BookDetails = () => {
                       <FiEdit2 className="text-[18px] mr-2" /> <span>Edit</span>
                     </button>
                   </Link>
-                  <button className="flex items-center px-4 py-[3px] bg-red-500 text-white rounded hover:bg-red-600 ml-3">
+                  <button
+                    onClick={handleDeleteBook}
+                    className="flex items-center px-4 py-[3px] bg-red-500 text-white rounded hover:bg-red-600 ml-3"
+                  >
                     <AiFillDelete className="text-[18px] mr-2" />{" "}
                     <span>Delete</span>
                   </button>
