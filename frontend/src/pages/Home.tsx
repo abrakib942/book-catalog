@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Link } from "react-router-dom";
+
 import Footer from "../layouts/Footer";
 import bannerImg from "../assets/bannerImg.jpeg";
-import { useGetBooksQuery } from "../redux/features/book/bookApi";
+import { useGetRecentBooksQuery } from "../redux/features/book/bookApi";
 import Loading from "../components/Loading";
 import { IBook } from "../types/globalTypes";
 import Card from "../components/Card";
 
 export default function Home() {
-  const { data: bookData, isLoading } = useGetBooksQuery(undefined);
+  const { data: bookData, isLoading } = useGetRecentBooksQuery(undefined);
 
   if (isLoading) {
     return <Loading />;

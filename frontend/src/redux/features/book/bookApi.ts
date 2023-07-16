@@ -39,6 +39,12 @@ const bookApi = api.injectEndpoints({
       }),
       invalidatesTags: ["deleteBook"],
     }),
+    getRecentBooks: builder.query({
+      query: () => ({
+        url: "/books/recent",
+        providesTags: ["addNewBook"],
+      }),
+    }),
   }),
 });
 
@@ -48,4 +54,5 @@ export const {
   useAddBookMutation,
   useDeleteBookMutation,
   useUpdateBookMutation,
+  useGetRecentBooksQuery,
 } = bookApi;
