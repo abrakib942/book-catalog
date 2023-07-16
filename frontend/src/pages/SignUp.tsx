@@ -1,17 +1,22 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Controller, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { MdAlternateEmail } from "react-icons/md";
 import { AiFillLock } from "react-icons/ai";
 import { RiUserSmileLine } from "react-icons/ri";
+import { useAppDispatch } from "../redux/hook";
+import { useSignUpMutation } from "../redux/features/user/userApi";
+import toast from "react-hot-toast";
+import Loading from "../components/Loading";
 
 type FormData = {
-  name: string;
+  // name: string;
   email: string;
   password: string;
 };
@@ -21,7 +26,7 @@ const schema = yup.object().shape({
     .string()
     .email("Please Enter a valid email address")
     .required("Email Required"),
-  name: yup.string().required("Please Enter your name"),
+  // name: yup.string().required("Please Enter your name"),
   password: yup
     .string()
     .required("Please enter password")
@@ -30,14 +35,21 @@ const schema = yup.object().shape({
 
 const defaultValues = {
   email: "",
-  name: "",
+  // name: "",
   password: "",
 };
 
 const SignUp = () => {
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const [signUp, { isLoading }] = useSignUpMutation();
+
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     mode: "onChange",
@@ -45,9 +57,26 @@ const SignUp = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+    try {
+      const payloadObj = {
+        email: data?.email,
+        // name: data?.name,
+        password: data?.password,
+      };
+      await signUp(payloadObj);
+
+      reset(defaultValues);
+      navigate("/signIn");
+      toast.success("Registration successful");
+    } catch (error) {
+      toast.error("Registration Failed!");
+    }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="w-[500px] mx-auto">
@@ -89,7 +118,7 @@ const SignUp = () => {
               </label>
             )}
           />
-          <Controller
+          {/* <Controller
             name="name"
             control={control}
             render={({ field }) => (
@@ -114,7 +143,7 @@ const SignUp = () => {
                 )}
               </label>
             )}
-          />
+          /> */}
 
           <Controller
             name="password"
