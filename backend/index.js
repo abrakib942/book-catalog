@@ -135,6 +135,19 @@ const run = async () => {
       }
     });
 
+    app.get("/books/recent", async (req, res) => {
+      const sort = { publishedDate: -1 };
+      const result = await booksCollection
+        .find({})
+        .sort(sort)
+        .limit(10)
+        .toArray();
+      return res.status(200).send({
+        message: "Recent Published Books retrieved successfully!",
+        books: result,
+      });
+    });
+
     app.post("/books/add-book", async (req, res) => {
       const authorizeToken = req.headers.authorization;
       if (!authorizeToken) {
