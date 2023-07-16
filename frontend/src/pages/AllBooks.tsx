@@ -39,8 +39,9 @@ const AllBooks = () => {
 
   const { data: bookData, isLoading } = useGetBooksQuery({
     search: searchText,
-    genre: selectGenre,
-    publicationYear: selectpublicationYear,
+    genre: selectGenre !== "" ? selectGenre : undefined,
+    publicationYear:
+      selectpublicationYear !== "" ? selectpublicationYear : undefined,
   });
 
   if (isLoading) {
@@ -51,84 +52,55 @@ const AllBooks = () => {
     <>
       <Navbar />
 
-      <div className="flex">
-        {/* Sidebar */}
-        <div className="w-1/4 bg-gray-200 p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Filters</h2>
-            <button
-              onClick={() => {
-                setSelectGenre("");
-                setSelectPublicationYear("");
-              }}
-              className="text-[14px] bg-green-500 text-white px-[12px] py-[4px] rounded-[8px]"
-            >
-              Reset
-            </button>
-          </div>
-          {/* Filter options */}
-          <div className="space-y-2">
-            <div className="bg-white p-2 rounded">
-              <h2 className="text-[15px] text-gray-400">By Genre:</h2>
-              <div className="mt-2">
-                {genres?.map((genre, i) => {
-                  return (
-                    <div key={i} className="flex items-center mb-[8px]">
-                      <input
-                        onChange={() => setSelectGenre(genre)}
-                        className="h-[18px] w-[18px]"
-                        id={genre}
-                        type="radio"
-                        name="genre"
-                        checked={selectGenre === genre}
-                      />
-                      <label className="text-[14px] ml-3" htmlFor={genre}>
-                        {genre}
-                      </label>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="bg-white p-2 rounded">
-              <div className="bg-white p-2 rounded">
-                <h2 className="text-[15px] text-gray-400">
-                  By Publication Year:
-                </h2>
-                <div className="mt-2">
-                  {publicationYears?.map((year, i) => {
-                    return (
-                      <div key={i} className="flex items-center mb-[8px]">
-                        <input
-                          onChange={() => setSelectPublicationYear(year)}
-                          className="h-[18px] w-[18px]"
-                          id={year}
-                          type="radio"
-                          name="year"
-                          checked={selectpublicationYear === year}
-                        />
-                        <label className="text-[14px] ml-3" htmlFor={year}>
-                          {year}
-                        </label>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Main content */}
-        <div className="flex-grow p-4">
+      <div className="flex justify-center">
+        <div className="">
           {/* Search bar */}
-          <div className="flex items-center mb-4">
-            <input
-              onChange={(e) => setSearchText(e.target.value)}
-              className="border border-gray-300 p-2 mr-2 flex-grow"
-              type="text"
-              placeholder="Search..."
-            />
+          <div className="flex items-center justify-center mb-4">
+            <div className="mr-5">
+              <input
+                onChange={(e) => setSearchText(e.target.value)}
+                className="input input-bordered input-primary w-96"
+                type="text"
+                placeholder="Search..."
+              />
+            </div>
+
+            <div className="flex items-center gap-5 mb-9">
+              <div>
+                <label className="label">
+                  <span className="label-text">By genre</span>
+                </label>
+                <select
+                  onChange={(event) => setSelectGenre(event.target.value)}
+                  className="select select-primary w-full max-w-xs"
+                >
+                  <option value="">All genres</option>
+                  {genres.map((genre) => (
+                    <option value={genre} key={genre}>
+                      {genre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="label">
+                  <span className="label-text">By Publication Year</span>
+                </label>
+                <select
+                  onChange={(event) =>
+                    setSelectPublicationYear(event.target.value)
+                  }
+                  className="select select-primary w-full max-w-xs"
+                >
+                  <option value="">All Years</option>
+                  {publicationYears.map((year) => (
+                    <option value={year} key={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
 
           <div className="mt-[20px] mb-[100px]">
