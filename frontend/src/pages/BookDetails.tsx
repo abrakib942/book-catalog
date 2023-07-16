@@ -36,7 +36,7 @@ const BookDetails = () => {
                 <h2 className="text-2xl font-bold mb-4">{book.title}</h2>
                 {/* Buttons */}
                 <div className="flex items-center">
-                  <Link to={`/edit-book/${book.id}`}>
+                  <Link to={`/edit-book/${book._id}`}>
                     <button className="flex items-center px-4 py-[3px] bg-green-500 text-white rounded hover:bg-green-600 mr-3">
                       <FiEdit2 className="text-[18px] mr-2" /> <span>Edit</span>
                     </button>
