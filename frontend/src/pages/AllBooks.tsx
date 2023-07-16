@@ -1,14 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React from "react";
+import React, { useState } from "react";
 import { useGetBooksQuery } from "../redux/features/book/bookApi";
 import { IBook } from "../types/globalTypes";
 import Card from "../components/Card";
 import Loading from "../components/Loading";
 
 const AllBooks = () => {
-  const { data: bookData, isLoading } = useGetBooksQuery(undefined);
+  const [selectGenre, setSelectGenre] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [selectpublicationYear, setSelectPublicationYear] = useState("");
+
+  const { data: bookData, isLoading } = useGetBooksQuery({
+    search: searchText,
+    genre: selectGenre,
+    publicationYear: selectpublicationYear,
+  });
 
   if (isLoading) {
     return <Loading />;
